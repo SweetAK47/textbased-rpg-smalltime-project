@@ -5,15 +5,24 @@ import sys
 import os
 from random import randint
 
+# add save system, trackback
+# keep global variables to a minimum or none at all
+# add more to the story and gameplay
+# finish asset files
+
 
 items = ["axe", "bow", "arrow"]
 
-enemyAI = ["goblin", "orc", "troll", "dragon"]
+enemyAI = ["goblin", "zombie", "orc", "troll", "dragon"]
 
 baseplrdamage = 10
 baselvlupxp = 100
 lvlupxp = baselvlupxp
 levelbuff = 1
+
+enemyassets = "./assets/enemies/"
+playerassets = "./assets/player/"
+npcassets = "./assets/npcs/"
 
 class character:
     def __init__(self):
@@ -26,7 +35,7 @@ class character:
         self.xp = 0
         self.items = []
         self.unlockedmagic = []
-        self.location = "forest"
+        self.location = introforest
 
 # if character.xp >= lvlupxp:
 def levelups():
@@ -35,14 +44,16 @@ def levelups():
     character.xp = 0
     character.hp = 100 * levelbuff
     character.mp = 100 * levelbuff
-    print("You leveled up! You are now level", character.lvl, "!")
+    print("\nYou leveled up! You are now level", character.lvl, "!")
     mainui()
 
 class enemy:
     def __init__(self):
         self.name = [random.choice(enemyAI)]
         self.hp = 0 ## add enemy files to get hp
-        self.damage = [random.randint(1, 50)]
+        open(enemyassets + random.choice(enemyAI) + ".bin", "rb")
+        
+        self.damage = [random.choice(enemyAIdamage)]
         self.loot = [random.choice(items)]
 
 def mainui():
