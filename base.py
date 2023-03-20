@@ -9,11 +9,14 @@ from random import randint
 # keep global variables to a minimum or none at all
 # add more to the story and gameplay
 # finish asset files
+# add enemy decision making (healing, attacking, retreating)
+# add fighting system (while loop check for hps, if ai/player hp checks, etc)
+# more shit
 
 
-items = ["axe", "bow", "arrow"]
+items = ["axe", "bow", "arrow", "sword", "shield", "health potion", "mana potion", "dagger", "leather chestplate", "leather leggings", "leather boots", "leather helmet", "iron chestplate", "iron leggings", "iron boots", "iron helmet", "diamond chestplate", "diamond leggings", "diamond boots", "diamond helmet", "gold chestplate", "gold leggings", "gold boots", "gold helmet", "chain chestplate", "chain leggings", "chain boots", "chain helmet", "netherite chestplate", "netherite leggings", "netherite boots", "netherite helmet", "wooden chestplate", "wooden leggings", "wooden boots", "wooden helmet", "stone chestplate", "stone leggings", "stone boots", "stone helmet", "leather chestplate", "leather leggings", "leather boots", "leather helmet", "iron chestplate", "iron leggings", "iron boots", "iron helmet", "diamond chestplate", "diamond leggings", "diamond boots", "diamond helmet", "gold chestplate", "gold leggings", "gold boots", "gold helmet", "chain chestplate", "chain leggings", "chain boots", "chain helmet", "netherite chestplate", "netherite leggings", "netherite boots", "netherite helmet", "wooden chestplate", "wooden leggings", "wooden boots", "wooden helmet", "stone chestplate", "stone leggings", "stone boots", "stone helmet", "leather chestplate", "leather leggings", "leather boots", "leather helmet", "iron chestplate", "iron leggings", "iron boots", "iron helmet", "diamond chestplate", "diamond leggings", "diamond boots", "diamond helmet", "gold chestplate", "gold leggings", "gold boots", "gold helmet", "chain chestplate", "chain leggings", "chain boots", "chain helmet", "netherite chestplate", "netherite leggings", "netherite boots", "netherite helmet", "wooden chestplate", "wooden leggings", "wooden boots", "wooden helmet", "stone chestplate", "stone leggings", "stone boots", "stone helmet", "leather chestplate", "leather leggings", "leather boots", "leather helmet", "iron chestplate", "iron leggings", "iron boots", "iron helmet", "diamond chestplate", "diamond leggings", "diamond boots", "leather hood"]
 
-enemyAI = ["goblin", "zombie", "orc", "troll", "dragon"]
+enemyAI = ["goblin", "zombie", "orc", "troll", "dragon"] # add more later
 
 baseplrdamage = 10
 baselvlupxp = 100
@@ -23,6 +26,7 @@ levelbuff = 1
 enemyassets = "./assets/enemies/"
 playerassets = "./assets/player/"
 npcassets = "./assets/npcs/"
+itemassets = "./assets/items/"
 
 class character:
     def __init__(self):
@@ -33,13 +37,16 @@ class character:
         self.mp = 100
         self.lvl = 1
         self.xp = 0
+        self.hitchance = 1
         self.items = []
         self.unlockedmagic = []
+        self.gold = 0
         self.location = introforest
 
 # if character.xp >= lvlupxp:
 def levelups():
     character.lvl += 1
+    lvlupxp = lvlupxp * 0.40
     levelbuff = 0.25*character.lvl
     character.xp = 0
     character.hp = 100 * levelbuff
@@ -50,11 +57,11 @@ def levelups():
 class enemy:
     def __init__(self):
         self.name = [random.choice(enemyAI)]
-        self.hp = 0 ## add enemy files to get hp
         open(enemyassets + random.choice(enemyAI) + ".bin", "rb")
-        
-        self.damage = [random.choice(enemyAIdamage)]
-        self.loot = [random.choice(items)]
+        self.hp = 0 ## add enemy files to get hp damage and hitchance
+        self.damage = [0 + random.choice(enemyAIdamage)]
+        self.hitchance = 0
+        self.loot = [random.choice(items)] # change later
 
 def mainui():
     print("\nHealth: ",character.hp, "\nMP: ",character.MP, "\nLevel: ",character.lvl, "\nXP: ",character.xp)
@@ -106,7 +113,7 @@ def introdeepforest():
     return # add later
 
 def introcave():
-    return # add later
+    print("You enter the cave and walk for a while. You see a small light in the distance. You walk towards it and see a closed gate. \nDo you attack or run?")
 
 def introvillage():
     return
